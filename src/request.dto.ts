@@ -1,4 +1,4 @@
-export class Request {
+export class RequestDto {
 
     url: string;
     encoding: string;

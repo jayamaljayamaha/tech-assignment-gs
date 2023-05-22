@@ -1,10 +1,11 @@
 import request from "request";
-import {Request} from "./request";
+import {RequestDto} from "./request.dto";
 import mergeImg from "merge-img"
 import {join} from "path";
 import {saveFile} from "./file.service";
 
-export const getImage = (req: Request): Promise<string> => {
+// get image from http
+export const getImage = (req: RequestDto): Promise<string> => {
     return new Promise((resolve, reject) => {
         request.get(req, (err, response) => {
             if (err) {
@@ -16,6 +17,7 @@ export const getImage = (req: Request): Promise<string> => {
     })
 }
 
+// merge two images with configurable offsets
 export const mergeImage = (imageOne: string, imageTwo: string, imageOneOffsetX: number, imageOneOffsetY: number,
                            imageTwoOffsetX: number, imageTwoOffsetY: number): Promise<Buffer> => {
     return mergeImg([
@@ -32,7 +34,7 @@ export const mergeImage = (imageOne: string, imageTwo: string, imageOneOffsetX: 
     }))
 }
 
-export const saveImage = (fileName: string, buffer: Buffer) => {
-    const fileOut = join(process.cwd(), `/cat-card.jpg`);
+export const saveImage = (fileName: string, buffer: Buffer): void => {
+    const fileOut: string = join(process.cwd(), fileName);
     saveFile(fileOut, buffer, 'binary')
 }
